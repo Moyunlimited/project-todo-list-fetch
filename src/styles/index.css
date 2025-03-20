@@ -9,3 +9,35 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.container {
+    background: rgba(149, 144, 144, 0.114);
+    margin: auto;
+    width: 400px;
+    border: thick double rgba(149, 144, 144, 0.114);
+    
+
+}
+h1 {
+   text-align: center;
+   color: grey;
+}
+ul {
+    padding: 0;
+    margin-bottom: 0; 
+}
+ul li {
+    border: 1px solid lightgrey;
+    list-style: none;
+    padding: 5px;
+}
+input {
+    border: none;
+    width: 100%;
+}
+.item {
+    font-size: x-small;
+}
+span {
+   position: relative;
+   float: right;
+}

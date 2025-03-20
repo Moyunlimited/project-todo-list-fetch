@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [userInput, setUserInput] = useState("")
+	const [Todo, setTodo] = useState([])
 	return (
-		<div className="text-center">
-            
+		<div className="container mt-5">
+			<h1>ToDos</h1>
+			<ul>
+				<li><input type="text"
+					onChange={(e) => setUserInput(e.target.value)}
+					value={userInput}
+					onKeyDown={(e) => {
+						if (e.key == "Enter") {setTodo(Todo.concat(userInput));
+						setUserInput ("")
+						}
+					}}
+					placeholder="What needs to be done?"></input></li>
+				{Todo.map((item, index) => (
+					<li>{item}
+					<span className="" onClick={() => setTodo(Todo.filter((t, currentIndex) => index != currentIndex))}>X</span></li>
+				))}
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			</ul>
+			<div className="item">{Todo.length} item left</div>
 		</div>
 	);
 };
