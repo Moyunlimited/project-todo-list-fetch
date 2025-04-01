@@ -1,12 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
+
 const Home = () => {
 	const [userInput, setUserInput] = useState("")
 	const [Todo, setTodo] = useState([])
+
+	useEffect(() => {
+
+		getUser()
+	
+	}, [])
+
+    const addTodoList = async (e) => {
+		e.preventDefault();
+		let Todo = {label: userInput, is_done: false}
+		let response = await fetch('https://playground.4geeks.com/todo/todos/moyunlimited', {
+			method: "POST",
+			headers: { "Content-type": "application/json" },
+			body: JSON.stringify(Todo)
+		})
+        let data = await response.json()
+		getUser()
+		setUserInput("")
+
+	};
+
+	const removeTodo = (i) => {
+
+	}
+
+	const getUser = async () => {
+		let response = await fetch('https://playground.4geeks.com/todo/users/moyunlimited')
+		let data = await response.json()
+		console.log(data)
+		if (typeof data.name != 'undefined') {
+			console.log(data.name)
+		}
+		else {
+			let response = await fetch('https://playground.4geeks.com/todo/users/moyunlimited',{
+				method: "POST",
+                headers: { "Content-type": "application/json" },
+    
+			})
+			let data = await response.json()
+			setTodo(data.Todo) 
+			
+		}
+
+	}
+
+    
+
 	return (
 		<div className="container mt-5">
 			<h1>ToDos</h1>
@@ -15,14 +63,14 @@ const Home = () => {
 					onChange={(e) => setUserInput(e.target.value)}
 					value={userInput}
 					onKeyDown={(e) => {
-						if (e.key == "Enter") {setTodo(Todo.concat(userInput));
-						setUserInput ("")
+						if (e.key == "Enter") {
+							addTodoList(e)
 						}
 					}}
 					placeholder="What needs to be done?"></input></li>
 				{Todo.map((item, index) => (
-					<li>{item}
-					<span className="" onClick={() => setTodo(Todo.filter((t, currentIndex) => index != currentIndex))}>X</span></li>
+					<li>{item.label}
+						<span className="" onClick={() => removeTodo(item.id)}>X</span></li>
 				))}
 
 			</ul>
