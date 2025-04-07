@@ -29,7 +29,12 @@ const Home = () => {
 
 	};
 
-	const removeTodo = (i) => {
+	const removeTodo = async (X) => {
+		let deleteResponse = await fetch("https://playground.4geeks.com/todo/todos/moyunlimited${X}", {
+			method: "DELETE",
+			headers: { "Content-type": "application/json" },
+			// body: JSON.stringify()
+		})
 
 	}
 
@@ -38,6 +43,7 @@ const Home = () => {
 		let data = await response.json()
 		console.log(data)
 		if (typeof data.name != 'undefined') {
+			setTodo(data.todos)
 			console.log(data.name)
 		}
 		else {
@@ -47,7 +53,7 @@ const Home = () => {
     
 			})
 			let data = await response.json()
-			setTodo(data.Todo) 
+			setTodo(data.todos) 
 			
 		}
 
