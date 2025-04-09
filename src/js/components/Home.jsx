@@ -30,7 +30,7 @@ const Home = () => {
 	};
 
 	const removeTodo = async (X) => {
-		let deleteResponse = await fetch("https://playground.4geeks.com/todo/todos/moyunlimited${X}", {
+		let deleteResponse = await fetch(`https://playground.4geeks.com/todo/todos/moyunlimited${X}`, {
 			method: "DELETE",
 			headers: { "Content-type": "application/json" },
 			// body: JSON.stringify()
