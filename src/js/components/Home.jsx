@@ -12,30 +12,30 @@ const Home = () => {
 	useEffect(() => {
 
 		getUser()
-	
+
 	}, [])
 
-    const addTodoList = async (e) => {
+	const addTodoList = async (e) => {
 		e.preventDefault();
-		let Todo = {label: userInput, is_done: false}
+		let Todo = { label: userInput, is_done: false }
 		let response = await fetch('https://playground.4geeks.com/todo/todos/moyunlimited', {
 			method: "POST",
 			headers: { "Content-type": "application/json" },
 			body: JSON.stringify(Todo)
 		})
-        let data = await response.json()
+		let data = await response.json()
 		getUser()
 		setUserInput("")
 
 	};
 
 	const removeTodo = async (X) => {
-		let deleteResponse = await fetch(`https://playground.4geeks.com/todo/todos/moyunlimited${X}`, {
+		let deleteResponse = await fetch(`https://playground.4geeks.com/todo/todos/${X}`, {
 			method: "DELETE",
 			headers: { "Content-type": "application/json" },
 			// body: JSON.stringify()
 		})
-
+		getUser()
 	}
 
 	const getUser = async () => {
@@ -47,40 +47,42 @@ const Home = () => {
 			console.log(data.name)
 		}
 		else {
-			let response = await fetch('https://playground.4geeks.com/todo/users/moyunlimited',{
+			let response = await fetch('https://playground.4geeks.com/todo/users/moyunlimited', {
 				method: "POST",
-                headers: { "Content-type": "application/json" },
-    
+				headers: { "Content-type": "application/json" },
+
 			})
 			let data = await response.json()
-			setTodo(data.todos) 
-			
+			setTodo(data.todos)
+
 		}
 
 	}
 
-    
+
 
 	return (
-		<div className="container mt-5">
-			<h1>ToDos</h1>
+		<div className="container">
+			<h1>To Do List</h1>
 			<ul>
-				<li><input type="text"
+				<li><input
+					type="text"
 					onChange={(e) => setUserInput(e.target.value)}
 					value={userInput}
 					onKeyDown={(e) => {
-						if (e.key == "Enter") {
+						if (e.key === "Enter") {
 							addTodoList(e)
 						}
 					}}
-					placeholder="What needs to be done?"></input></li>
+					placeholder="What do you need to do?"></input>
+				</li>
 				{Todo.map((item, index) => (
-					<li>{item.label}
-						<span className="" onClick={() => removeTodo(item.id)}>X</span></li>
+					<li>
+						{item.label}{" "} <span className="" onClick={() => removeTodo(item.id)}>X</span>
+					</li>
 				))}
-
 			</ul>
-			<div className="item">{Todo.length} item left</div>
+			<div className="item">{Todo.length} item left </div>
 		</div>
 	);
 };
